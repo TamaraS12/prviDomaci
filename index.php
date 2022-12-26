@@ -15,6 +15,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     if ($odg->num_rows == 1) {
         $_SESSION['user_id'] = $korisnik->id;
+        $_SESSION['username'] = $korisnik->username;
         header('Location: home.php');
         exit();
     } else {
