@@ -9,12 +9,13 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $uname = $_POST['username'];
     $upass = $_POST['password'];
 
-    $korisnik = new User(1, $uname, $upass);
+    $korisnik = new User(1,$uname, $upass);
 
     $odg = User::logInUser($korisnik, $conn);
 
     if ($odg->num_rows == 1) {
-        $_SESSION['user_id'] = $korisnik->id;
+        $red = $odg->fetch_array();
+        $_SESSION['user_id'] = $red["id"];
         $_SESSION['username'] = $korisnik->username;
         header('Location: home.php');
         exit();
