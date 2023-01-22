@@ -36,6 +36,21 @@ public static function getById($id, mysqli $conn){
     
     return $myArray;
 }
+public static function sortiraj(mysqli $conn, $direction){
+
+    
+  $q = "SELECT * FROM smestaj ORDER BY cena_po_osobi $direction";
+  $rezultat= $conn->query($q);
+  $myArray= array();
+  if($rezultat){
+      while($red= $rezultat->fetch_array()){
+          $myArray[]= $red;
+       }
+  }
+  
+  return $myArray;
+
+}
 
   
 }

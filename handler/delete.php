@@ -6,6 +6,7 @@ if(isset($_POST['id'])) {
     $prijava = new Prijava($_POST['id']);
     $status = $prijava->deleteById($conn);
 
+    
     if ($status) {
         echo 'Success';
     } else {

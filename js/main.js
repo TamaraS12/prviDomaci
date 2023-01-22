@@ -8,11 +8,35 @@ $('.btn-booking').click(function (event) {
     });
 
     request.done(function (response, textStatus, jqXHR) {
+        
         $('#smestaj').val(response[0]['naziv'].trim());
         $('#smestajId').val(response[0]['id'].trim());
         $('#cenaPoOsobi').val(response[0]['cena_po_osobi'].trim());
         $('#ukupnaCena').val("");
         $('#brojOsoba').val("");
+    })
+
+});
+
+$('.btn-update-booking').click(function (event) {
+
+    request = $.ajax({
+        url: 'handler/getPrijava.php',
+        type: 'post',
+        data: { 'id': event.target.id },
+        dataType: 'json'
+    });
+
+    request.done(function (response, textStatus, jqXHR) {
+        
+        $('#smestaj').val(response[0]['smestaj'].trim());
+        $('#smestajId').val(response[0]['smestaj_id'].trim());
+        $('#prijavaId').val(response[0]['prijava_id'].trim());
+        $('#cenaPoOsobi').val(response[0]['cena_po_osobi'].trim());
+        $('#ukupnaCena').val(response[0]['cena'].trim());
+        $('#brojOsoba').val(response[0]['broj_osoba'].trim());
+        $('#datumOd').val(response[0]['datum_od'].trim());
+        $('#datumDo').val(response[0]['datum_do'].trim());
     })
 
 });
@@ -42,9 +66,9 @@ $('#searchInput').keyup(function () {
     for (let i = 0; i < table.rows.length; i++) {
         let currentRow = table.rows[i + 1];
         if (currentRow) {
-            var tdPredmet = currentRow.getElementsByTagName('TD')[0];
+            var tdSmestaj = currentRow.getElementsByTagName('TD')[0];
 
-            if (tdPredmet.textContent.toUpperCase().includes(searchText)) {
+            if (tdSmestaj.textContent.toUpperCase().includes(searchText)) {
                 currentRow.style.display = '';
             } else {
                 currentRow.style.display = 'none';
@@ -56,7 +80,7 @@ $('#searchInput').keyup(function () {
 
 $('#dodajForm').submit(function () {
 
-    // event.preventDefault();
+    event.preventDefault();
     console.log("Dodaj je pokrenuto");
     const $form = $(this);
     const $inputs = $form.find('input, select, button, textarea');
@@ -77,10 +101,7 @@ $('#dodajForm').submit(function () {
             window.location.href = 'prijave.php';
         }
         else {
-            console.log("Smestaj nije bukiran" + response);
-            console.log(response);
-            console.log(textStatus);
-            console.log(jqXHR);
+            alert("Smestaj nije bukiran" + response);
         }
     });
 
@@ -102,11 +123,11 @@ $('.btn-delete').click(function (event) {
         console.log(selectedBtn);
         if (response === 'Success') {
             selectedBtn.closest('tr').remove();
-            alert('Obrisana prijava');
+            alert('Uspesno obrisana prijava');
             console.log('Uspesno obrisana prijava.');
         } else {
             console.error('Nespesno obrisana prijava: ', response);
-            alert('Nije obrisana prijava');
+            alert('Neuspesno obrisana prijava');
         }
     }).fail(function (response) {
         console.log(response);
@@ -119,4 +140,66 @@ $('.btn-delete').click(function (event) {
 
 $('#logoutBtn').click(function () {
     window.location.href = 'index.php';
+});
+
+$('#sortirajOpadajuce').click(function(){    
+    sortiraj('DESC');
+});
+
+$('#sortirajRastuce').click(function(){    
+    sortiraj('ASC');
+});
+
+function sortiraj(direction) {
+    request = $.ajax({
+        url: 'handler/sortiraj.php',
+        type: 'post',
+        data: { 'direction': direction },
+    });
+    request.done(function (response, textStatus, jqXHR) {
+
+        let table = document.getElementById("myTable");
+        jsonResponse = JSON.parse(response);
+        for (let i = 0; i < jsonResponse.length; i++) {
+            table.rows[i + 1].getElementsByTagName("TD")[0].textContent = jsonResponse[i]['naziv'];
+            table.rows[i + 1].getElementsByTagName("TD")[1].textContent = jsonResponse[i]['tip'];
+            table.rows[i + 1].getElementsByTagName("TD")[2].textContent = jsonResponse[i]['kapacitet'];
+            table.rows[i + 1].getElementsByTagName("TD")[3].textContent = jsonResponse[i]['cena_po_osobi'] + ' RSD';
+        }
+        
+    });
+}
+
+$('#izmeniForm').submit(function(){
+
+    event.preventDefault();
+    console.log("Izmeni je pokrenuto");
+    const $form= $(this);
+    const $inputs= $form.find('input, select, button, textarea');
+    const serijalizacija= $form.serialize();
+    console.log(serijalizacija);
+    
+    request= $.ajax({
+          url: 'handler/update.php',
+          type:'post',
+          data: serijalizacija
+    });
+
+
+    request.done(function (response, textStatus, jqXHR) {
+
+
+        console.log(response);
+        console.log(response.length);
+        console.log(response.trim().length);
+       if (response.trim() === 'Success') {
+           console.log('Prijava je izmenjena');
+           location.reload(true);
+             //$('#izmeniForm').reset;
+       }
+        else alert('Neuspešna izmena prijave ' + response);
+        console.log(response);
+   
+    });
+
 });

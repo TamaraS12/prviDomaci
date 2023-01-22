@@ -5,31 +5,6 @@ body {
     background-attachment: fixed;
 }
 
-.navbar-expand .navbar-nav>.active>a,
-.navbar-expand .navbar-nav>.active>a:hover,
-.navbar-expand .navbar-nav>.active>a:focus {
-    color: #f8f8f8;
-    background-color: #373a49;
-}
-
-.navbar-expand .navbar-nav>.active>a,
-.navbar-expand .navbar-nav>.active>a:hover,
-.navbar-expand .navbar-nav>.active>a:focus {
-    color: #373a49;
-    font-weight: bold;
-    border-bottom: #373a49 2px solid;
-    background-color: #ececec;
-}
-
-.navbar-expand .navbar-nav>.active>a,
-.navbar-expand .navbar-nav>.active>a:hover,
-.navbar-expand .navbar-nav>.active>a:focus {
-    color: #171616;
-    font-weight: bold;
-    border-bottom: #272525 2px solid;
-    background-color: #e4e4e4;
-}
-
 .table-card {
     margin-top: 20px;
 }

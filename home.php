@@ -83,9 +83,19 @@ if ($rezultat->num_rows == 0) {
 
                         </tbody>
                     </table>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Sortiraj po
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" id="sortirajRastuce">Ceni rastuce</a></li>
+                            <li><a class="dropdown-item" href="#" id="sortirajOpadajuce">Ceni opadajuce</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
+
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -153,6 +163,7 @@ if ($rezultat->num_rows == 0) {
                 </div>
             </div>
         </div>
+        
 
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
